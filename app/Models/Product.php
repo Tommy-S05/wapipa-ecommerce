@@ -5,17 +5,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @mixin Builder
  */
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory, SoftDeletes;
+    use InteractsWithMedia;
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(100);
+
+        $this->addMediaConversion('preview')
+            ->width(480);
+
+        $this->addMediaConversion('large')
+            ->width(1200);
+    }
 
     public function department(): BelongsTo
     {
@@ -25,5 +42,10 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function variationTypes(): HasMany
+    {
+        return $this->hasMany(VariationType::class);
     }
 }
