@@ -52,6 +52,11 @@ export default function Navbar() {
                             tabIndex={0}
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li>
+                                <a href={route('filament.admin.pages.dashboard')} className="justify-between">
+                                    Admin
+                                </a>
+                            </li>
+                            <li>
                                 <Link href={route('profile.edit')} className="justify-between">
                                     Profile
                                 </Link>
