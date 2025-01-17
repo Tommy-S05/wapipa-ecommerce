@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('department_id')->index()->constrained();
-            $table->foreignId('category_id')->index()->constrained();
+            $table->foreignId('department_id')->constrained();
+            $table->foreignId('category_id')->constrained();
             $table->string('title', 2000);
             $table->string('slug', 2000);
             $table->longText('description');
             $table->decimal('price', 20, 4);
-            $table->string('status')->index();
-            $table->integer('quantity')->nullable();
+            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
+            $table->integer('quantity')->nullable()->default(0);
             $table->foreignIdFor(\App\Models\User::class, 'created_by');
             $table->foreignIdFor(\App\Models\User::class, 'updated_by');
             $table->softDeletes();

@@ -29,6 +29,11 @@ class ProductResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-s-queue-list';
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->createdBy();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -176,6 +181,7 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
             'images' => Pages\ProductImages::route('/{record}/images'),
             'variation-types' => Pages\ProductVariationTypes::route('/{record}/variation-types'),
+            'variation' => Pages\ProductVariations::route('/{record}/variations'),
         ];
     }
 
@@ -185,6 +191,7 @@ class ProductResource extends Resource
             Pages\EditProduct::class,
             Pages\ProductImages::class,
             Pages\ProductVariationTypes::class,
+            Pages\ProductVariations::class,
         ]);
     }
 

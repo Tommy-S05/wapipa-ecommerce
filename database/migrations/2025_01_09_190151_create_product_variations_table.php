@@ -26,6 +26,7 @@ return new class extends Migration
                 ->constrained('variation_types')
                 ->cascadeOnDelete();
             $table->string('name');
+            $table->string('slug')->unique();
         });
 
         Schema::create('product_variations', function (Blueprint $table) {
@@ -35,9 +36,10 @@ return new class extends Migration
                 ->cascadeOnDelete();
 //            $table->foreignId('variation_type_id')->constrained();
 //            $table->foreignId('variation_type_option_id')->constrained();
-            $table->json('variation_type_options_ids');
+            $table->json('variation_type_option_ids');
             $table->decimal('price', 20, 4)->nullable();
-            $table->integer('quantity')->nullable();
+            $table->integer('quantity')->nullable()->default(0);
+            $table->unique(['product_id', 'variation_type_option_ids']);
 
             $table->timestamps();
         });
