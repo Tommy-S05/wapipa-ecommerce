@@ -43,7 +43,7 @@ class ProductVariations extends EditRecord
             $fields[] = TextInput::make('variation_type_' . ($type->id) . '.id')
                 ->hidden();
             $fields[] = TextInput::make('variation_type_' . ($type->id) . '.name')
-                ->label($type->name);
+                ->label(__($type->name));
         }
         return $form
             ->schema([
@@ -54,11 +54,11 @@ class ProductVariations extends EditRecord
                             ->schema($fields)
                             ->columns(3),
                         TextInput::make('quantity')
-                            ->label('Quantity')
+                            ->label(__('labels.quantity'))
                             ->numeric()
                             ->default($productRecord->quantity),
                         TextInput::make('price')
-                            ->label('Price')
+                            ->label(__('labels.price'))
                             ->numeric()
                             ->default($productRecord->price),
                     ])

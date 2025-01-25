@@ -25,11 +25,17 @@ class DepartmentResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getNavigationLabel(): string
+    {
+        return __('Departments');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('labels.name'))
                     ->live(onBlur: true)
                     ->required()
                     ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state) {
@@ -41,11 +47,13 @@ class DepartmentResource extends Resource
                     }),
 //                    ->afterStateUpdated(fn(Set $set, $state) => $set('slug', Str::slug($state)))
                 Forms\Components\TextInput::make('slug')
+                    ->label(__('labels.slug'))
                     ->unique(ignoreRecord: true)
 //                    ->dehydrated()
                     ->required(),
 
                 Forms\Components\Checkbox::make('active')
+                    ->label(__('labels.active'))
                     ->default(true),
 
             ]);
@@ -56,13 +64,16 @@ class DepartmentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('labels.name'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('labels.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('labels.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

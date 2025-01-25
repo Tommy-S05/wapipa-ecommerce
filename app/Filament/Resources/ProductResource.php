@@ -18,6 +18,7 @@ use Filament\Resources\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
@@ -28,6 +29,10 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-queue-list';
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::End;
+    public static function getNavigationLabel(): string
+    {
+        return __('Products');
+    }
 
     public static function getEloquentQuery(): Builder
     {
@@ -41,6 +46,7 @@ class ProductResource extends Resource
                 Forms\Components\Grid::make()
                     ->schema([
                         Forms\Components\TextInput::make('title')
+                            ->label(__('labels.title'))
                             ->live(onBlur: true)
                             ->required()
                             ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state) {
@@ -56,7 +62,7 @@ class ProductResource extends Resource
 //                    ->dehydrated()
                             ->required(),
                         Forms\Components\Select::make('department_id')
-                            ->label(__('Department'))
+                            ->label(__('labels.department'))
                             ->relationship('department', 'name')
                             ->required()
                             ->preload()
@@ -65,7 +71,7 @@ class ProductResource extends Resource
                             ->afterStateUpdated(fn(Set $set) => $set('category_id', null)),
 
                         Forms\Components\Select::make('category_id')
-                            ->label(__('Category'))
+                            ->label(__('labels.category'))
                             ->relationship(
                                 name: 'category',
                                 titleAttribute: 'name',
@@ -85,7 +91,7 @@ class ProductResource extends Resource
                     ]),
 
                 Forms\Components\RichEditor::make('description')
-                    ->label(__('Description'))
+                    ->label(__('labels.description'))
                     ->required()
                     ->toolbarButtons([
                         'blockquote',
@@ -104,12 +110,15 @@ class ProductResource extends Resource
                     ->columnSpan(2),
 
                 Forms\Components\TextInput::make('price')
+                    ->label(__('labels.price'))
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('quantity')
+                    ->label(__('labels.quantity'))
                     ->integer(),
                 Forms\Components\Select::make('status')
-                    ->options(ProductStatusEnum::labels())
+                    ->label(__('labels.status'))
+                    ->options(ProductStatusEnum::class)
                     ->default(ProductStatusEnum::Draft->value)
                     ->required()
             ]);
@@ -120,29 +129,34 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
-                    ->label(__('Image'))
+                    ->label(__('labels.image'))
                     ->collection('images')
                     ->limit(1)
                     ->conversion('thumb'),
                 Tables\Columns\TextColumn::make('title')
+                    ->label(__('labels.title'))
                     ->sortable()
                     ->words(10)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->colors(ProductStatusEnum::colors()),
+                    ->label(__('labels.status'))
+                    ->badge(),
                 Tables\Columns\TextColumn::make('department.name')
+                    ->label(__('labels.department'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
+                    ->label(__('labels.category'))
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('labels.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('labels.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->searchable()
@@ -150,8 +164,10 @@ class ProductResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
-                    ->options(ProductStatusEnum::labels()),
+                    ->label(__('labels.status'))
+                    ->options(ProductStatusEnum::class),
                 Tables\Filters\SelectFilter::make('department_id')
+                    ->label(__('labels.department'))
                     ->relationship('department', 'name')
             ])
             ->actions([

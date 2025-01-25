@@ -11,8 +11,10 @@ use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Str;
 
 class ProductVariationTypes extends EditRecord
 {
@@ -35,20 +37,31 @@ class ProductVariationTypes extends EditRecord
                     ->label(false)
                     ->schema([
                         TextInput::make('name')
-                            ->label(__('Name'))
+                            ->label(__('labels.name'))
                             ->required(),
                         Select::make('type')
-                            ->label(__('Type'))
-                            ->options(ProductVariationTypeEnum::labels())
+                            ->label(__('labels.type'))
+                            ->options(ProductVariationTypeEnum::class)
                             ->live()
                             ->required(),
 
                         Repeater::make('options')
                             ->schema([
                                 TextInput::make('name')
-                                    ->label(__('Name'))
+                                    ->label(__('labels.name'))
                                     ->columnSpan(2)
-                                    ->required(),
+                                    ->live(onBlur: true)
+                                    ->required()
+                                    ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state) {
+                                        if (($get('slug') ?? '') !== Str::slug($old)) {
+                                            return;
+                                        }
+
+                                        $set('slug', Str::slug($state));
+                                    }),
+                                TextInput::make('slug')
+                                    ->label(__('labels.slug'))
+                                    ->unique(ignoreRecord: true),
                                 SpatieMediaLibraryFileUpload::make('images')
                                     ->label(__('Images'))
                                     ->collection('images')

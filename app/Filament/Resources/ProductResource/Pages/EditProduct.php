@@ -10,10 +10,19 @@ use Illuminate\Contracts\Support\Htmlable;
 class EditProduct extends EditRecord
 {
     protected static string $resource = ProductResource::class;
-//    public function getRecordTitle(): string|Htmlable
-//    {
-//        return $this->getRecord()->title;
-//    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('Edit :name', ['name' => __($this->getRecordTitle())]);
+//        return __('filament-panels::resources/pages/edit-record.title', [
+//            'label' => __($this->getRecordTitle()),
+//        ]);
+    }
+    public static function getNavigationLabel(): string
+    {
+//        $title = str(class_basename(static::class))->kebab()->replace('-', ' ')->title()->value();
+        return __('Edit Record');
+    }
 
     protected function getHeaderActions(): array
     {

@@ -57,6 +57,10 @@ class Product extends Model implements HasMedia
         'updated_by',
     ];
 
+    protected $casts = [
+        'status' => ProductStatusEnum::class,
+    ];
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
