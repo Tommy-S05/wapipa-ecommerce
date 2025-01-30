@@ -277,5 +277,14 @@
     "Yes": "Yes",
     "You are receiving this email because we received a password reset request for your account.": "You are receiving this email because we received a password reset request for your account.",
     "You're logged in!": "You're logged in!",
-    "Your email address is unverified.": "Your email address is unverified."
+    "Your email address is unverified.": "Your email address is unverified.",
+    "Welcome!": "Welcome!",
+    "Welcome, :name": "Welcome, :name",
+    "Welcome, :name!": "Welcome, :name!",
+    "Welcome": "Welcome",
+    "Please sign in to continue": "Please sign in to continue",
+    "Switch to :language": "Switch to :language",
+    "Change language": "Change language",
+    "Select language": "Select language",
+    "Language": "Language"
 }

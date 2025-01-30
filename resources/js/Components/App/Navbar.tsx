@@ -1,14 +1,20 @@
 import { Link, usePage } from "@inertiajs/react";
+import LanguageSwitcher from "@/Components/Core/LanguageSwitcher";
+import { useTrans } from "@/composables/trans";
 
 export default function Navbar() {
-    const { auth } = usePage().props;
+    const { auth } = usePage().props; // Usar tipos específicos
     const { user } = auth;
+
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <Link href={'/'} className="btn btn-ghost text-xl">Wapipa Store</Link>
+                <Link href={route('dashboard')} className="btn btn-ghost text-xl">Wapipa Store</Link>
             </div>
             <div className="flex-none gap-4">
+                <LanguageSwitcher/>
+
+                {/* Carrito de compra */}
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                         <div className="indicator">
@@ -39,7 +45,9 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
+
                 {user ?
+                    /* Menú de usuario autenticado */
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             <div className="w-10 rounded-full">
@@ -53,12 +61,12 @@ export default function Navbar() {
                             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                             <li>
                                 <a href={route('filament.admin.pages.dashboard')} className="justify-between">
-                                    Admin
+                                    {useTrans('Dashboard')}
                                 </a>
                             </li>
                             <li>
                                 <Link href={route('profile.edit')} className="justify-between">
-                                    Profile
+                                    {useTrans('Profile')}
                                 </Link>
                             </li>
                             <li>
@@ -67,7 +75,7 @@ export default function Navbar() {
                                     method={'post'}
                                     as={'button'}
                                 >
-                                    Logout
+                                    {useTrans('Logout')}
                                 </Link>
                             </li>
                         </ul>
@@ -76,11 +84,12 @@ export default function Navbar() {
                     :
 
                     <>
-                        <Link href={'/login'} className={'btn'}>
-                            Login
+                        {/* Botones de autenticación */}
+                        <Link href={route('login')} className={'btn'}>
+                            {useTrans('Login')}
                         </Link>
-                        <Link href={'/register'} className={'btn btn-primary'}>
-                            Register
+                        <Link href={route('register')} className={'btn btn-primary'}>
+                            {useTrans('Register')}
                         </Link>
                     </>
                 }

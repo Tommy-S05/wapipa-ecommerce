@@ -86,6 +86,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Available Locale Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The application locale determines the available locales that will be used
+    | by the translation service provider. You are free to set this array
+    | to any of the locales which will be supported by the application.
+    |
+    */
+
+//    'available_locales' => ['en', 'es', 'fr'],
+    'available_locales' => [
+        'en' => 'English',
+        'es' => 'Español',
+//        'fr' => 'Français',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |

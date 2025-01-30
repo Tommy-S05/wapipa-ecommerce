@@ -6,6 +6,7 @@ import TextInput from '@/Components/Core/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { useTrans } from "@/composables/trans";
 
 export default function Login({
     status,
@@ -47,16 +48,16 @@ export default function Login({
 
                     <div className="text-center mb-6">
                         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-                            Bienvenido
+                            { useTrans('Welcome') }
                         </h1>
                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                            Inicia sesión para continuar
+                            { useTrans('Please sign in to continue') }
                         </p>
                     </div>
 
                     <form onSubmit={submit}>
                         <div>
-                            <InputLabel htmlFor="email" value="Email"/>
+                            <InputLabel htmlFor="email" value={ useTrans('Email') }/>
 
                             <TextInput
                                 id="email"
@@ -73,7 +74,7 @@ export default function Login({
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="password" value="Password"/>
+                            <InputLabel htmlFor="password" value={ useTrans('Password') }/>
 
                             <TextInput
                                 id="password"
@@ -98,7 +99,7 @@ export default function Login({
                                     }
                                 />
                                 <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
-                            Remember me
+                            { useTrans('Remember me')}
                         </span>
                             </label>
                         </div>
@@ -109,12 +110,12 @@ export default function Login({
                                     href={route('password.request')}
                                     className="link"
                                 >
-                                    Forgot your password?
+                                    { useTrans('Forgot your password?') }
                                 </Link>
                             )}
 
                             <PrimaryButton className="ms-4" disabled={processing}>
-                                Log in
+                                { useTrans('Log in') }
                             </PrimaryButton>
                         </div>
                     </form>

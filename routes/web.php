@@ -5,19 +5,61 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('dashboard');
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//})->name('dashboard');
+//
+//Route::middleware('auth')->group(function () {
+//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+//});
+//
+//require __DIR__.'/auth.php';
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Obtener la lista de idiomas válidos desde la configuración
+$availableLocales = implode('|', array_keys(config('app.available_locales')));
+
+// Rutas con prefijo de idioma
+Route::prefix('{locale}')
+//    ->where(['locale' => '[a-zA-Z]{2}']) // El prefijo debe ser de 2 letras (ej. 'en', 'es', 'fr')
+    ->where(['locale' => $availableLocales])// Debe estar en available_locales
+    ->group(function() {
+        // Redirige a la ruta previa o a 'welcome' si no existe una previa
+        Route::get('', function() {
+            $previousRoute = Route::getRoutes()->match(
+                Request::create(URL::previous())
+            )->getName();
+
+            return redirect()->route($previousRoute ?? 'dashboard');
+        });
+
+        // Ruta para 'welcome'
+        Route::get('welcome', function() {
+            return Inertia::render('Welcome', [
+                'canLogin' => Route::has('login'),
+                'canRegister' => Route::has('register'),
+                'laravelVersion' => Application::VERSION,
+                'phpVersion' => PHP_VERSION,
+            ]);
+        })->name('dashboard');
+
+        // Rutas protegidas con autenticación
+        Route::middleware('auth')->group(function() {
+            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        });
+
+        require __DIR__.'/auth.php';
+    });
+
+// Ruta de fallback para redirigir a 'welcome'
+Route::fallback(function() {
+    return redirect()->route('dashboard');
 });
-
-require __DIR__.'/auth.php';
