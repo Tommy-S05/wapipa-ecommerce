@@ -30,12 +30,17 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
+ * @property int $created_by
+ * @property int|null $updated_by
+ * @property-read User $user
  * @property-read Department $department
  * @property-read Category $category
  * @property-read Collection|ProductVariation[] $variations
  * @property-read int|null $variations_count
  * @property-read Collection|VariationType[] $variationTypes
  * @property-read int|null $variationTypes_count
+ * @method static Builder createdBy()
+ * @method static Builder published()
  */
 
 class Product extends Model implements HasMedia
@@ -71,6 +76,11 @@ class Product extends Model implements HasMedia
 
         $this->addMediaConversion('large')
             ->width(1200);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function department(): BelongsTo

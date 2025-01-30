@@ -1,11 +1,12 @@
 import { usePage } from "@inertiajs/react";
 import { useTrans } from "@/composables/trans";
 import { PageProps as InertiaPageProps } from '@inertiajs/core';
+import { PageProps } from "@/types";
 
-interface PageProps extends InertiaPageProps {
-    locale: string;
-    locales: Record<string, string>;
-}
+// interface PageProps extends InertiaPageProps {
+//     locale: string;
+//     locales: Record<string, string>;
+// }
 
 export default function LanguageSwitcher() {
     const { locale, locales } = usePage<PageProps>().props;

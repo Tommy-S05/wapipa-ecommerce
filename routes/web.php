@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,18 +37,14 @@ Route::prefix('{locale}')
                 Request::create(URL::previous())
             )->getName();
 
-            return redirect()->route($previousRoute ?? 'dashboard');
+            return redirect()->route($previousRoute ?? 'home');
         });
 
-        // Ruta para 'welcome'
-        Route::get('welcome', function() {
-            return Inertia::render('Welcome', [
-                'canLogin' => Route::has('login'),
-                'canRegister' => Route::has('register'),
-                'laravelVersion' => Application::VERSION,
-                'phpVersion' => PHP_VERSION,
-            ]);
-        })->name('dashboard');
+        // Ruta para 'home'
+        Route::get('home', [Controllers\ProductController::class, 'home'])
+            ->name('home');
+        Route::get('product/{product:slug}', [Controllers\ProductController::class, 'show'])
+            ->name('product.show');
 
         // Rutas protegidas con autenticación
         Route::middleware('auth')->group(function() {
@@ -61,5 +58,5 @@ Route::prefix('{locale}')
 
 // Ruta de fallback para redirigir a 'welcome'
 Route::fallback(function() {
-    return redirect()->route('dashboard');
+    return redirect()->route('home');
 });

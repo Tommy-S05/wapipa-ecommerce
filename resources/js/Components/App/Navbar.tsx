@@ -9,7 +9,7 @@ export default function Navbar() {
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <Link href={route('dashboard')} className="btn btn-ghost text-xl">Wapipa Store</Link>
+                <Link href={route('home')} className="btn btn-ghost text-xl">Wapipa Store</Link>
             </div>
             <div className="flex-none gap-4">
                 <LanguageSwitcher/>
