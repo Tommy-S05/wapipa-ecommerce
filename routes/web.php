@@ -43,8 +43,8 @@ Route::prefix('{locale}')
         // Ruta para 'home'
         Route::get('home', [Controllers\ProductController::class, 'home'])
             ->name('home');
-        Route::get('product/{product:slug}', [Controllers\ProductController::class, 'show'])
-            ->name('product.show');
+        Route::get('products/{product:slug}', [Controllers\ProductController::class, 'show'])
+            ->name('products.show');
 
         // Rutas protegidas con autenticación
         Route::middleware('auth')->group(function() {

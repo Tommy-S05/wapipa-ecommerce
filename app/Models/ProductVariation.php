@@ -2,9 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @mixin Builder
+ * @property int $id
+ * @property int $product_id
+ * @property array $variation_type_option_ids
+ * @property float $price
+ * @property int $quantity
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Product $product
+ */
 class ProductVariation extends Model
 {
     protected $fillable = [

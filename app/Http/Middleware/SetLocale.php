@@ -33,7 +33,7 @@ class SetLocale
         App::setLocale(Session::get('locale', App::currentLocale()));
 
         // Establecer el idioma en las URLs generadas por Laravel
-        URL::defaults(['locale' => App::currentLocale() ?? 'en']);
+        URL::defaults(['locale' => App::currentLocale() ?? config('app.locale')]);
 
         return $next($request);
     }

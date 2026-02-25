@@ -10,8 +10,8 @@ export default function ProductItem({ product }: { product: Product }) {
     return (
         <div className={'card bg-base-100 shadow-xl'}>
             <Link
-                // href={route('products.show', product.slug )}
-                href={'#'}
+                href={route('products.show', product.slug )}
+                // href={'#'}
             >
                 <figure className={'px-10 pt-10'}>
                     <img

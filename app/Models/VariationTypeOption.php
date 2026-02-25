@@ -30,7 +30,7 @@ class VariationTypeOption extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(100);
 
-        $this->addMediaConversion('preview')
+        $this->addMediaConversion('small')
             ->width(480);
 
         $this->addMediaConversion('large')

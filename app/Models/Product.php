@@ -62,6 +62,11 @@ class Product extends Model implements HasMedia
         'updated_by',
     ];
 
+//    public function getRouteKeyName(): string
+//    {
+//        return 'slug';
+//    }
+
     protected $casts = [
         'status' => ProductStatusEnum::class,
     ];
@@ -71,7 +76,7 @@ class Product extends Model implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(100);
 
-        $this->addMediaConversion('preview')
+        $this->addMediaConversion('small')
             ->width(480);
 
         $this->addMediaConversion('large')

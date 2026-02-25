@@ -1,4 +1,4 @@
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { useTrans } from "@/composables/trans";
 import { PageProps as InertiaPageProps } from '@inertiajs/core';
 import { PageProps } from "@/types";
@@ -31,10 +31,10 @@ export default function LanguageSwitcher() {
             >
                 {Object.entries(locales).map(([code, name]) => (
                     <li key={code} className={locale === code ? "bg-neutral text-white" : ""}>
-                        <a
+                        <Link
                             // href={'#'}
                             href={
-                                locale === code ? "#" : `/${code}`
+                                locale === code ? "" : `/${code}`
                             }
                             className={`flex items-center gap-2 p-2 rounded-md ${
                                 locale === code ? '' : 'hover:bg-gray-200'
@@ -52,7 +52,7 @@ export default function LanguageSwitcher() {
                             </span>
                             {/* Nombre del idioma */}
                             <span className="text-sm">{name}</span>
-                        </a>
+                        </Link>
                     </li>
                 ))}
             </ul>

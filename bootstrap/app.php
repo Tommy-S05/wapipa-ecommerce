@@ -24,6 +24,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         */
 
+//        $middleware->prependToPriorityList(
+//            before: \Illuminate\Routing\Middleware\SubstituteBindings::class,
+//            prepend: \App\Http\Middleware\SetLocale::class,
+//        );
+
         $middleware->prepend([
             \App\Http\Middleware\SetLocale::class,
         ]);
